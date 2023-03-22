@@ -4,11 +4,11 @@ function App() {
   const [toDo, setToDo] = useState("");
   const [toDoList, setToDoList] = useState([]);
 
-  const onChange = (event) => {
+  const handleOnChange = (event) => {
     setToDo(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const handleOnSubmit = (event) => {
     event.preventDefault();
     if (toDo === "") {
       return;
@@ -17,12 +17,17 @@ function App() {
     setToDo("");
   };
 
+  const handleDeleteToDo = (index) => {
+    console.log(index);
+    setToDoList((currList) => currList.filter((_, idx) => idx !== index));
+  }
+
   return (
     <div>
       <h1>To Do List</h1>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleOnSubmit}>
         <input
-          onChange={onChange}
+          onChange={handleOnChange}
           type="text"
           value={toDo}
           placeholder="Write something to do..."
@@ -32,7 +37,9 @@ function App() {
       <div>
         <h2>Here is what you have to do (total : {toDoList.length})</h2>
         {toDoList.map((item, idx) => (
-          <li key={idx}>{item}</li>
+          <li key={idx}>{item}
+            <button onClick={() => handleDeleteToDo(idx)}>❌</button>
+          </li>
         ))}
       </div>
     </div>
